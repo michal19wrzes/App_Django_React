@@ -2,7 +2,7 @@
 React, JS, Python, Django, REST, Djoser, mui  -->  (auth_system)
 
 Running:
- * - need node.js module and type npm run build in /authSystem/frontend dir.
+ * need node.js module and type npm run build in /authSystem/frontend dir.
  * copy build dir from /frontend to /authSystem/backend dir.
 
 IN /authSystem/backend/ dir:
