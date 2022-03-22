@@ -7,8 +7,8 @@ import { checkAuthenticated, load_user } from '../actions/auth';
 const Layout = (props) => {
 	
 	useEffect(()=>{
-		props.checkAuthenticated();
-		props.load_user();
+		checkAuthenticated();
+		load_user();
 	},[]);
 	
 		return (

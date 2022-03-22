@@ -85,7 +85,7 @@ const Login = ({login,isAuthenticated}) => {
 				<Typography component="h1" variant="h5">
 				  Zaloguj się do Twojego super konta!
 				</Typography>
-				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+				<Box component="form" width={350} noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
 				  <TextField
 					margin="normal"
 					required

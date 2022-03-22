@@ -71,16 +71,17 @@ const Home = ({ logout, isAuthenticated }) =>{
 				  <LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-				  Jesteś zalogowany!
+				  {isAuthenticated ? 'Jesteś zalogowany!' : 'Jesteś wylogowany!'}
 				</Typography>
-				<Button
-					fullWidth
-					color="success"
-					onClick={logoutHandler} 
-					variant="contained"
-					sx={{ mt: 3, mb: 2 }}
-				>Wyloguj</Button>
-				{isAuthenticated ? ' ' : 'Wylogowano'}
+				<Box width={350}>
+					<Button
+						fullWidth
+						color="success"
+						onClick={logoutHandler} 
+						variant="contained"
+						sx={{ mt: 3, mb: 2 }}
+					>{isAuthenticated ? 'Wyloguj się' : 'Zaloguj się'}</Button>
+				</Box>
 				<Copyright sx={{ mt: 5 }} />
 			  </Box>
 			</Grid>

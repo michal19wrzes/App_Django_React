@@ -93,7 +93,7 @@ const ResetPasswordConfirm = ({ reset_password_confirm}) => {
 				<Typography component="h1" variant="h5">
 				  Resetowanie hasła
 				</Typography>
-				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+				<Box component="form" width={350} noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
 				  <TextField
 					margin="normal"
 					onChange={e => handleChange(e)}

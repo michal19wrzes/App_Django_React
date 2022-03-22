@@ -6,7 +6,6 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -93,7 +92,7 @@ const Signup = ({create_user,isAuthenticated}) => {
 				<Typography component="h1" variant="h5">
 				  Załóż swoje super konto w klanie Stevena!
 				</Typography>
-				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+				<Box component="form" width={350} noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
 				  <TextField
 					margin="normal"
 					required
