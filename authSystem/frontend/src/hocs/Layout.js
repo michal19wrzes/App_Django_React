@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { checkAuthenticated, load_user } from '../actions/auth';
 
 
-const Layout = (props) => {
+const Layout = ({checkAuthenticated, load_user, children}) => {
 	
 	useEffect(()=>{
 		checkAuthenticated();
@@ -14,7 +14,7 @@ const Layout = (props) => {
 		return (
 		<div>
 			<Navbar />
-			{props.children}
+			{children}
 		</div>
 		);
 };
