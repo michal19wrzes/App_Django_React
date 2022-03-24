@@ -50,7 +50,7 @@ const Login = ({login,isAuthenticated}) => {
 	}
   
 	
-//const Login = ({login},props) => (
+
 	return (
 	<ThemeProvider theme={theme}>
 		  <Grid container component="main" sx={{ height: '100vh' }}>
@@ -147,5 +147,5 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-//export default Login;
+
 export default connect(mapStateToProps,{ login })(Login);
