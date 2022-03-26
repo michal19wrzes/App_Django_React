@@ -7,6 +7,8 @@ import Login from './containers/Login';
 import Activate from './containers/Activate';
 import {BrowserRouter as Router, Routes, Route,} from 'react-router-dom';
 
+
+
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -29,7 +31,6 @@ export default class App extends Component {
 							<Route exact path='/login' element={<Login />} />
 							<Route exact path='/activate/:uid/:token' element={<Activate />} />
 							<Route exact path='password/reset/confirm/:uid/:token' element={<ResetPasswordConfirm />} />
-							<Route path='/another' element={<h1>This is another</h1>} />
 						</Routes>
 					</Layout>
 				</Router>

@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { logout } from '../actions/auth';
 import { connect } from 'react-redux';
+import {w3cwebsocket as W3CWebSocket} from "websocket";
 
 function Copyright(props) {
   return (
@@ -27,35 +28,40 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-const Home = ({ logout, isAuthenticated }) =>{ 
+const Home = ({ logout, isAuthenticated })=>{ 
 	
 	const [redirect, setRedirect] = useState(false);
+	
+	if(!isAuthenticated){
+		return <Navigate to='/login' />
+	}
 	
 	const logoutHandler = () => {
 	logout();
 	setRedirect(true);
 	};
 	
-	
 	return (
 		<ThemeProvider theme={theme}>
 		  <Grid container component="main" sx={{ height: '100vh' }}>
+			  {isAuthenticated ? '': <Navigate to='/login' /> }
 			<CssBaseline />
-			<Grid
-			  item
-			  xs={false}
-			  sm={4}
-			  md={7}
-			  sx={{
-
-				backgroundImage: 'url(https://source.unsplash.com/random)',
-				backgroundRepeat: 'no-repeat',
-				backgroundColor: (t) =>
-				  t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-				backgroundSize: 'cover',
-				backgroundPosition: 'center',
-			  }}
-			/>
+			<Grid item xs={false} sm={4} md={7} component={Paper} elevation={3} square>
+				<Box
+					sx={{
+					  my: 8,
+					  mx: 4,
+					  display: 'flex',
+					  flexDirection: 'column',
+					  alignItems: 'center',
+					}}
+				>
+					<Typography component="h1" variant="h5">
+						{isAuthenticated ? 'isAuthenticated=True' : 'isAuthenticated=False' }
+					</Typography>
+					
+				</Box>
+			</Grid>
 			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
 			  <Box
 				sx={{
@@ -86,7 +92,7 @@ const Home = ({ logout, isAuthenticated }) =>{
 			  </Box>
 			</Grid>
 		  </Grid>
-		  {redirect ? <Navigate to='/login/' /> : <h1>redirect fail</h1>}
+		  {redirect ? <Navigate to='/login/' /> :''}
 		</ThemeProvider>
 	);
 };
