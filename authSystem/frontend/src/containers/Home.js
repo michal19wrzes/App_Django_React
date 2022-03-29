@@ -36,6 +36,16 @@ const Home = ({ logout, isAuthenticated })=>{
 		return <Navigate to='/login' />
 	}
 	
+	var state = {
+		room:"vacad"
+	}
+	
+	var client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + state.room + '/');
+	
+	client.onopen = () => {
+		console.log('WebSocket Client Connected');
+	};
+	
 	const logoutHandler = () => {
 	logout();
 	setRedirect(true);
