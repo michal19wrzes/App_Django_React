@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState, Component } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { logout } from '../actions/auth';
 import { connect } from 'react-redux';
+import { render } from 'react-dom';
 import {w3cwebsocket as W3CWebSocket} from "websocket";
 
 function Copyright(props) {
@@ -28,29 +29,34 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-const Home = ({ logout, isAuthenticated })=>{ 
-	
-	const [redirect, setRedirect] = useState(false);
-	
-	if(!isAuthenticated){
-		return <Navigate to='/login' />
-	}
-	
-	var state = {
-		room:"vacad"
-	}
-	
-	var client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + state.room + '/');
-	
-	client.onopen = () => {
-		console.log('WebSocket Client Connected');
-	};
-	
-	const logoutHandler = () => {
-	logout();
-	setRedirect(true);
-	};
-	
+//const Home = ({ logout, isAuthenticated })=>{ 
+class Home extends Component { 
+
+	render(){
+		const { logout, isAuthenticated } = this.props;
+				
+		//const [redirect, setRedirect] = useState(false);
+		this.state = {redirect:false};
+		
+		if(!isAuthenticated){
+			return <Navigate to='/login' />
+		}
+		
+		var state = {
+			room:"vacad"
+		}
+		
+		var client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + state.room + '/');
+		
+		client.onopen = () => {
+			console.log('Websocket Client Connected');
+		};
+		
+		const logoutHandler = () => {
+		logout();
+		//setRedirect(true);
+		this.setState({ redirect:true })
+		};
 	return (
 		<ThemeProvider theme={theme}>
 		  <Grid container component="main" sx={{ height: '100vh' }}>
@@ -102,9 +108,9 @@ const Home = ({ logout, isAuthenticated })=>{
 			  </Box>
 			</Grid>
 		  </Grid>
-		  {redirect ? <Navigate to='/login/' /> :''}
+		  {this.state.redirect ? <Navigate to='/login/' /> :''}
 		</ThemeProvider>
-	);
+	)};
 };
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
