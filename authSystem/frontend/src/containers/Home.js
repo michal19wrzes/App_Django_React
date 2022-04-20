@@ -36,18 +36,19 @@ class Home extends Component {
 		const { logout, isAuthenticated } = this.props;
 				
 		//const [redirect, setRedirect] = useState(false);
-		this.state = {redirect:false};
+		this.state = {
+			redirect:false,
+			room:"vacad"
+		};
 		
 		if(!isAuthenticated){
 			return <Navigate to='/login' />
 		}
 		
-		var state = {
-			room:"vacad"
-		}
 		
-		var client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + state.room + '/');
 		
+		var client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + this.state.room + '/');
+		//componentDidMount
 		client.onopen = () => {
 			console.log('Websocket Client Connected');
 		};
