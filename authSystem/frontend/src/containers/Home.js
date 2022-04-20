@@ -4,6 +4,9 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Navigate } from 'react-router-dom';
@@ -14,6 +17,7 @@ import { logout } from '../actions/auth';
 import { connect } from 'react-redux';
 import { render } from 'react-dom';
 import {w3cwebsocket as W3CWebSocket} from "websocket";
+import { withStyles } from '@material-ui/core/styles';
 
 function Copyright(props) {
   return (
@@ -29,17 +33,79 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
+const useStyles = theme => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  root: {
+    boxShadow: 'none',
+  }
+});
 //const Home = ({ logout, isAuthenticated })=>{ 
 class Home extends Component { 
-
+	state = {
+			redirect:false,
+			room:"vacad",
+			messages:[],
+			name:'',
+			value:'',
+		};
+	client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + this.state.room + '/');
+	
+	onButtonClicked = (e) => {
+		this.client.send(JSON.stringify({
+			type:"message",
+			message: this.state.value,
+			name: this.state.name
+		}));
+		this.state.value=''
+		e.preventDefault();
+	}
+	
+	componentDidMount(){
+			this.client.onopen = () => {
+				console.log('Websocket Client Connected');
+			};
+			this.client.onmessage = (message) => {
+				const dataFromServer = JSON.parse(message.data);
+				console.log('got reply! ', dataFromServer.type);
+				if(dataFromServer){
+					this.setState((state) => 
+						({
+							messages: [...state.messages,
+							{
+								msg: dataFromServer.message,
+								name: dataFromServer.name,
+							}]
+							
+						})
+					);
+				}
+			};
+			
+		}
+		
+		
 	render(){
-		const { logout, isAuthenticated } = this.props;
+		
+		
+		const {classes, logout, isAuthenticated} = this.props;
 				
 		//const [redirect, setRedirect] = useState(false);
-		this.state = {
-			redirect:false,
-			room:"vacad"
-		};
 		
 		if(!isAuthenticated){
 			return <Navigate to='/login' />
@@ -47,17 +113,16 @@ class Home extends Component {
 		
 		
 		
-		var client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + this.state.room + '/');
-		//componentDidMount
-		client.onopen = () => {
-			console.log('Websocket Client Connected');
-		};
+		
+		
 		
 		const logoutHandler = () => {
 		logout();
 		//setRedirect(true);
 		this.setState({ redirect:true })
 		};
+		
+		
 	return (
 		<ThemeProvider theme={theme}>
 		  <Grid container component="main" sx={{ height: '100vh' }}>
@@ -76,6 +141,45 @@ class Home extends Component {
 					<Typography component="h1" variant="h5">
 						{isAuthenticated ? 'isAuthenticated=True' : 'isAuthenticated=False' }
 					</Typography>
+					Room Name: {this.state.room}
+					<Paper style={{ height: 500, maxHeight: 500, overflow: 'auto', boxShadow: 'none', }}>
+					  {this.state.messages.map(message => <>
+						<Card className={classes.root}>
+						  <CardHeader
+							avatar={
+							  <Avatar className={classes.avatar}>
+								R
+						  </Avatar>
+							}
+							title={message.name}
+							subheader={message.msg}
+						  />
+						</Card>
+					  </>)}
+					</Paper>
+					<form className={classes.form} noValidate onSubmit={this.onButtonClicked}>
+					  <TextField
+						id="outlined-helperText"
+						label="Make a comment"
+						defaultValue="Default Value"
+						variant="outlined"
+						value={this.state.value}
+						fullWidth
+						onChange={e => {
+						  this.setState({ value: e.target.value });
+						  this.value = this.state.value;
+						}}
+					  />
+					  <Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
+						className={classes.submit}
+					  >
+						Start Chatting
+						</Button>
+					</form>
 					
 				</Box>
 			</Grid>
@@ -117,4 +221,5 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps,{ logout })(Home);
+//export default connect(mapStateToProps,{ logout })(Home);
+export default withStyles(useStyles)(Home)
