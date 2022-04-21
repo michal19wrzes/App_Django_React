@@ -45,9 +45,9 @@ const Login = ({login,isAuthenticated}) => {
 		login(email,password);
 	};
 	
-	if(isAuthenticated){
-		return <Navigate to='/' />
-	}
+	// if(isAuthenticated){
+		// return <Navigate to='/' />
+	// }
   
 	
 

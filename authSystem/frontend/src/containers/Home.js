@@ -33,28 +33,28 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-const useStyles = theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  root: {
-    boxShadow: 'none',
-  }
-});
+// const useStyles = theme => ({
+  // paper: {
+    // marginTop: theme.spacing(8),
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center',
+  // },
+  // avatar: {
+    // margin: theme.spacing(1),
+    // backgroundColor: theme.palette.secondary.main,
+  // },
+  // form: {
+    // width: '100%', // Fix IE 11 issue.
+    // marginTop: theme.spacing(1),
+  // },
+  // submit: {
+    // margin: theme.spacing(3, 0, 2),
+  // },
+  // root: {
+    // boxShadow: 'none',
+  // }
+// });
 //const Home = ({ logout, isAuthenticated })=>{ 
 class Home extends Component { 
 	state = {
@@ -103,13 +103,13 @@ class Home extends Component {
 	render(){
 		
 		
-		const {classes, logout, isAuthenticated} = this.props;
+		const { logout, isAuthenticated} = this.props;
 				
 		//const [redirect, setRedirect] = useState(false);
 		
-		if(!isAuthenticated){
-			return <Navigate to='/login' />
-		}
+		// if(!isAuthenticated){
+			// return <Navigate to='/login' />
+		// }
 		
 		
 		
@@ -117,16 +117,16 @@ class Home extends Component {
 		
 		
 		const logoutHandler = () => {
-		logout();
-		//setRedirect(true);
-		this.setState({ redirect:true })
+			logout();
+			//setRedirect(true);
+			this.setState({ redirect:true })
 		};
 		
 		
 	return (
 		<ThemeProvider theme={theme}>
 		  <Grid container component="main" sx={{ height: '100vh' }}>
-			  {isAuthenticated ? '': <Navigate to='/login' /> }
+			  {/*{isAuthenticated ? '': <Navigate to='/login' /> } */}
 			<CssBaseline />
 			<Grid item xs={false} sm={4} md={7} component={Paper} elevation={3} square>
 				<Box
@@ -144,10 +144,10 @@ class Home extends Component {
 					Room Name: {this.state.room}
 					<Paper style={{ height: 500, maxHeight: 500, overflow: 'auto', boxShadow: 'none', }}>
 					  {this.state.messages.map(message => <>
-						<Card className={classes.root}>
+						<Card >
 						  <CardHeader
 							avatar={
-							  <Avatar className={classes.avatar}>
+							  <Avatar >
 								R
 						  </Avatar>
 							}
@@ -157,7 +157,7 @@ class Home extends Component {
 						</Card>
 					  </>)}
 					</Paper>
-					<form className={classes.form} noValidate onSubmit={this.onButtonClicked}>
+					<form noValidate onSubmit={this.onButtonClicked}>
 					  <TextField
 						id="outlined-helperText"
 						label="Make a comment"
@@ -175,7 +175,6 @@ class Home extends Component {
 						fullWidth
 						variant="contained"
 						color="primary"
-						className={classes.submit}
 					  >
 						Start Chatting
 						</Button>
@@ -213,7 +212,7 @@ class Home extends Component {
 			  </Box>
 			</Grid>
 		  </Grid>
-		  {this.state.redirect ? <Navigate to='/login/' /> :''}
+		  {/* {this.state.redirect ? <Navigate to='/login/' /> :''} */}
 		</ThemeProvider>
 	)};
 };
@@ -221,5 +220,5 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-//export default connect(mapStateToProps,{ logout })(Home);
-export default withStyles(useStyles)(Home)
+export default connect(mapStateToProps,{ logout })(Home);
+//export default withStyles(useStyles)(Home)
