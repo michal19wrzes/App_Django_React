@@ -1,5 +1,5 @@
 # App_Django_React
-React, JS, Python, Django, REST, Djoser, mui  -->  (auth_system)
+React, JS, Python, Django, REST, Djoser, mui, Django-channels  -->  (auth_system, chat)
 
 Running:
  * need google smtp auth in /authSystem/backend/auth_system/settings.py.
