@@ -77,9 +77,6 @@ class Home extends Component {
 	}
 	
 	componentDidMount(){
-			this.client.onopen = () => {
-				console.log('Websocket Client Connected');
-			};
 			this.client.onmessage = (message) => {
 				const dataFromServer = JSON.parse(message.data);
 				console.log('got reply! ', dataFromServer.type);
@@ -125,94 +122,75 @@ class Home extends Component {
 		
 	return (
 		<ThemeProvider theme={theme}>
-		  <Grid container component="main" sx={{ height: '100vh' }}>
-			  {/*{isAuthenticated ? '': <Navigate to='/login' /> } */}
-			<CssBaseline />
-			<Grid item xs={false} sm={4} md={7} component={Paper} elevation={3} square>
-				<Box
-					sx={{
-					  my: 8,
-					  mx: 4,
-					  display: 'flex',
-					  flexDirection: 'column',
-					  alignItems: 'center',
-					}}
-				>
-					<Typography component="h1" variant="h5">
-						{isAuthenticated ? 'isAuthenticated=True' : 'isAuthenticated=False' }
-					</Typography>
-					Room Name: {this.state.room}
-					<Paper style={{ height: 500, maxHeight: 500, overflow: 'auto', boxShadow: 'none', }}>
-					  {this.state.messages.map(message => <>
-						<Card >
-						  <CardHeader
-							avatar={
-							  <Avatar >
-								R
-						  </Avatar>
-							}
-							title={message.name}
-							subheader={message.msg}
-						  />
-						</Card>
-					  </>)}
-					</Paper>
-					<form noValidate onSubmit={this.onButtonClicked}>
-					  <TextField
-						id="outlined-helperText"
-						label="Make a comment"
-						defaultValue="Default Value"
-						variant="outlined"
-						value={this.state.value}
-						fullWidth
-						onChange={e => {
-						  this.setState({ value: e.target.value });
-						  this.value = this.state.value;
+			<Grid container component="main" sx={{ height: '100vh' }}>
+				{/*{isAuthenticated ? '': <Navigate to='/login' /> } */}
+				<CssBaseline />
+				{isAuthenticated ? <div>
+				<Grid item xs={false} sm={4} md={7} component={Paper} elevation={3} square>
+					<Box
+						sx={{
+						my: 8,
+						mx: 4,
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
 						}}
-					  />
-					  <Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-					  >
-						Start Chatting
+					>
+						Room Name: {this.state.room}
+						<Paper style={{ height: 500, maxHeight: 500, overflow: 'auto', boxShadow: 'none', }}>
+						{this.state.messages.map(message => <>
+							<Card >
+							<CardHeader
+								avatar={
+								<Avatar >
+									R
+							</Avatar>
+								}
+								title={message.name}
+								subheader={message.msg}
+							/>
+							</Card>
+						</>)}
+						</Paper>
+						<form noValidate onSubmit={this.onButtonClicked}>
+						<TextField
+							id="outlined-helperText"
+							label="Make a comment"
+							defaultValue="Default Value"
+							variant="outlined"
+							value={this.state.value}
+							fullWidth
+							onChange={e => {
+							this.setState({ value: e.target.value });
+							this.value = this.state.value;
+							}}
+						/>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+						>
+							Start Chatting
 						</Button>
-					</form>
-					
-				</Box>
-			</Grid>
-			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-			  <Box
-				sx={{
-				  
-				  my: 8,
-				  mx: 4,
-				  display: 'flex',
-				  flexDirection: 'column',
-				  alignItems: 'center',
-				}}
-			  >
-				<Avatar sx={{ m: 1, bgcolor: 'success.main' }}>
-				  <LockOutlinedIcon />
-				</Avatar>
-				<Typography component="h1" variant="h5">
-				  {isAuthenticated ? 'Jesteś zalogowany!' : 'Jesteś wylogowany!'}
-				</Typography>
-				<Box width={350}>
-					<Button
-						fullWidth
-						color="success"
-						onClick={logoutHandler} 
-						variant="contained"
-						sx={{ mt: 3, mb: 2 }}
-					>{isAuthenticated ? 'Wyloguj się' : 'Zaloguj się'}</Button>
-				</Box>
-				<Copyright sx={{ mt: 5 }} />
-			  </Box>
-			</Grid>
-		  </Grid>
-		  {/* {this.state.redirect ? <Navigate to='/login/' /> :''} */}
+						<Button
+								fullWidth
+								color="success"
+								onClick={logoutHandler} 
+								variant="contained"
+								sx={{ mt: 3, mb: 2 }}
+							>{isAuthenticated ? 'Wyloguj się' : 'Zaloguj się'}
+						</Button>
+
+						</form>
+						
+					</Box>
+				</Grid>
+			</div>
+			:
+				<Navigate to='/login'/>}
+		  	</Grid>
+		  {this.state.redirect ? <Navigate to='/login/' /> :''}
 		</ThemeProvider>
 	)};
 };
