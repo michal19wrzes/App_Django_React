@@ -31,7 +31,9 @@ function Copyright(props) {
     </Typography>
   );
 }
-
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
 const theme = createTheme();
 // const useStyles = theme => ({
   // paper: {
@@ -77,6 +79,9 @@ class Home extends Component {
 	}
 	
 	componentDidMount(){
+			this.client.onopen = () =>{
+				console.log('open')
+			};
 			this.client.onmessage = (message) => {
 				const dataFromServer = JSON.parse(message.data);
 				console.log('got reply! ', dataFromServer.type);
@@ -123,7 +128,6 @@ class Home extends Component {
 	return (
 		<ThemeProvider theme={theme}>
 			<Grid container component="main" sx={{ height: '100vh' }}>
-				{/*{isAuthenticated ? '': <Navigate to='/login' /> } */}
 				<CssBaseline />
 				{isAuthenticated ? <div>
 				<Grid item xs={false} sm={4} md={7} component={Paper} elevation={3} square>
@@ -174,12 +178,12 @@ class Home extends Component {
 							Start Chatting
 						</Button>
 						<Button
-								fullWidth
-								color="success"
-								onClick={logoutHandler} 
-								variant="contained"
-								sx={{ mt: 3, mb: 2 }}
-							>{isAuthenticated ? 'Wyloguj się' : 'Zaloguj się'}
+							fullWidth
+							color="success"
+							onClick={logoutHandler} 
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
+						>{isAuthenticated ? 'Wyloguj się' : 'Zaloguj się'}
 						</Button>
 
 						</form>
@@ -188,15 +192,20 @@ class Home extends Component {
 				</Grid>
 			</div>
 			:
-				<Navigate to='/login'/>}
+			<Button
+				fullWidth
+				color="success"
+				onClick={logoutHandler} 
+				variant="contained"
+				sx={{ mt: 3, mb: 2, fontSize:'63px'}}
+			>{isAuthenticated ? 'Wyloguj się' : 'Zaloguj się'}
+			</Button>}
 		  	</Grid>
 		  {this.state.redirect ? <Navigate to='/login/' /> :''}
 		</ThemeProvider>
 	)};
 };
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
-});
+
 
 export default connect(mapStateToProps,{ logout })(Home);
 //export default withStyles(useStyles)(Home)
