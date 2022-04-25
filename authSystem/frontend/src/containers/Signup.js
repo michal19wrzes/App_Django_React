@@ -51,12 +51,12 @@ const Signup = ({create_user,isAuthenticated}) => {
 			setAccountCreated(true);
 		}
 	};
-	// if(isAuthenticated){
-		// return <Navigate to='/'/>
-	// }
-	// if(accountCreated){
-		// return <Navigate to='/login'/>
-	// }
+	if(isAuthenticated){
+		return <Navigate to='/'/>
+	}
+	if(accountCreated){
+		return <Navigate to='/login'/>
+	}
 	
 	return (
 		<ThemeProvider theme={theme}>

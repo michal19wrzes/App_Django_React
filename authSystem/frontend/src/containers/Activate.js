@@ -36,9 +36,9 @@ const Activate = ({activate_account}) => {
 		setVerified(true);
 	};
 	
-	// if(verified){
-		// return <Navigate to='/' />
-	// }
+	if(verified){
+		return <Navigate to='/' />
+	}
   
 	
 
